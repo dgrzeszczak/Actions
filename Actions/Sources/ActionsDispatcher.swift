@@ -6,7 +6,15 @@
 //  Copyright © 2018 Dariusz Grzeszczak. All rights reserved.
 //
 
-public final class ActionsDispatcher: ActionsHandler {
+public protocol SyncActionsDispatcher {
+    func dispatch<Act: Action>(action: Act) -> Act.ReturnType
+}
+
+public protocol AsyncActionsDispatcher {
+    func dispatch<Act: AsyncAction>(action: Act, completion: @escaping (Act.ReturnType) -> Void)
+}
+
+public final class ActionsDispatcher: SyncActionsDispatcher, AsyncActionsDispatcher {
     private var handlers: [String: Any] =  [:]
     var actions: [String] {
         return handlers.map { $0.key }
@@ -23,7 +31,7 @@ public final class ActionsDispatcher: ActionsHandler {
         handlers[Act.actionID] = handler
     }
 
-    public func handle<Act: Action>(action: Act) -> Act.ReturnType {
+    public func dispatch<Act: Action>(action: Act) -> Act.ReturnType {
         guard let handler = handlers[type(of: action).actionID] as? ((Act.ParamType) -> Act.ReturnType) else {
             fatalError("Unsuported action")
         }
@@ -44,7 +52,7 @@ public final class ActionsDispatcher: ActionsHandler {
             handlers[Act.actionID] = finalHandler
     }
 
-    public func handle<Act: AsyncAction>(action: Act, completion: @escaping (Act.ReturnType) -> Void) {
+    public func dispatch<Act: AsyncAction>(action: Act, completion: @escaping (Act.ReturnType) -> Void) {
         guard let handler = handlers[type(of: action).actionID] as? ((Act.ParamType, _ completion: @escaping (Act.ReturnType) -> Void) -> Void) else {
             fatalError("Unsuported action")
         }

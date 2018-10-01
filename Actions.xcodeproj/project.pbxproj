@@ -11,8 +11,6 @@
 		08491B2920AFF497008D93AA /* ActionsTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 08491B2820AFF497008D93AA /* ActionsTests.swift */; };
 		08491B2B20AFF497008D93AA /* Actions.h in Headers */ = {isa = PBXBuildFile; fileRef = 08491B1D20AFF496008D93AA /* Actions.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		08491B4E20AFF544008D93AA /* Actions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 08491B4D20AFF544008D93AA /* Actions.swift */; };
-		08491B5120AFF657008D93AA /* ActionsHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 08491B5020AFF657008D93AA /* ActionsHandler.swift */; };
-		08491B5220AFF657008D93AA /* ActionsHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 08491B5020AFF657008D93AA /* ActionsHandler.swift */; };
 		08491B5420AFF680008D93AA /* ActionsDispatcher.swift in Sources */ = {isa = PBXBuildFile; fileRef = 08491B5320AFF680008D93AA /* ActionsDispatcher.swift */; };
 		08491B5520AFF680008D93AA /* ActionsDispatcher.swift in Sources */ = {isa = PBXBuildFile; fileRef = 08491B5320AFF680008D93AA /* ActionsDispatcher.swift */; };
 		08491B5720AFF6A3008D93AA /* ActionsRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 08491B5620AFF6A3008D93AA /* ActionsRouter.swift */; };
@@ -38,7 +36,6 @@
 		08491B2820AFF497008D93AA /* ActionsTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActionsTests.swift; sourceTree = "<group>"; };
 		08491B2A20AFF497008D93AA /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		08491B4D20AFF544008D93AA /* Actions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Actions.swift; sourceTree = "<group>"; };
-		08491B5020AFF657008D93AA /* ActionsHandler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActionsHandler.swift; sourceTree = "<group>"; };
 		08491B5320AFF680008D93AA /* ActionsDispatcher.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActionsDispatcher.swift; sourceTree = "<group>"; };
 		08491B5620AFF6A3008D93AA /* ActionsRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActionsRouter.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -103,7 +100,6 @@
 			isa = PBXGroup;
 			children = (
 				08491B4D20AFF544008D93AA /* Actions.swift */,
-				08491B5020AFF657008D93AA /* ActionsHandler.swift */,
 				08491B5320AFF680008D93AA /* ActionsDispatcher.swift */,
 				08491B5620AFF6A3008D93AA /* ActionsRouter.swift */,
 			);
@@ -219,7 +215,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				08491B5720AFF6A3008D93AA /* ActionsRouter.swift in Sources */,
-				08491B5120AFF657008D93AA /* ActionsHandler.swift in Sources */,
 				08491B4E20AFF544008D93AA /* Actions.swift in Sources */,
 				08491B5420AFF680008D93AA /* ActionsDispatcher.swift in Sources */,
 			);
@@ -231,7 +226,6 @@
 			files = (
 				08491B5920AFF7FE008D93AA /* Actions.swift in Sources */,
 				08491B5820AFF6A3008D93AA /* ActionsRouter.swift in Sources */,
-				08491B5220AFF657008D93AA /* ActionsHandler.swift in Sources */,
 				08491B2920AFF497008D93AA /* ActionsTests.swift in Sources */,
 				08491B5520AFF680008D93AA /* ActionsDispatcher.swift in Sources */,
 			);

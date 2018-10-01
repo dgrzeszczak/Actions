@@ -28,7 +28,7 @@ final class ActionsRouter {
             fatalError("There is no handler registered for \(type(of: action).actionID)")
         }
 
-        return handler.handle(action: action)
+        return handler.dispatch(action: action)
     }
 
     func async<Act: AsyncAction>(action: Act, completion: @escaping (Act.ReturnType) -> Void) {
@@ -36,6 +36,6 @@ final class ActionsRouter {
             fatalError("There is no handler registered for \(type(of: action).actionID)")
         }
 
-        handler.handle(action: action, completion: completion)
+        handler.dispatch(action: action, completion: completion)
     }
 }
