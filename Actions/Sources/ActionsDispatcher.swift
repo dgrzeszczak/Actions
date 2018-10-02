@@ -27,8 +27,15 @@ public final class ActionsDispatcher: SyncActionsDispatcher, AsyncActionsDispatc
         ActionsRouter.instance.add(dispatcher: self)
     }
 
+    private func add(handler: Any, for actionID: String) {
+        if routingEnabled && ActionsRouter.instance.contains(actionID: actionID) {
+            fatalError("Doubled action: \(actionID). The same Action cannot be handled by two different handlers.")
+        }
+        handlers[actionID] = handler
+    }
+
     public func register<Act: Action>(action: Act.Type, handler: @escaping (Act.ParamType) -> Act.ReturnType) {
-        handlers[Act.actionID] = handler
+        add(handler: handler, for: Act.actionID)
     }
 
     public func dispatch<Act: Action>(action: Act) -> Act.ReturnType {
@@ -40,7 +47,7 @@ public final class ActionsDispatcher: SyncActionsDispatcher, AsyncActionsDispatc
     }
 
     public func register<Act: AsyncAction>(action: Act.Type, handler: @escaping (Act.ParamType, _ completion: @escaping (Act.ReturnType) -> Void) -> Void) {
-        handlers[Act.actionID] = handler
+        add(handler: handler, for: Act.actionID)
     }
 
     public func register<Act: AsyncAction>(action: Act.Type,
@@ -49,7 +56,7 @@ public final class ActionsDispatcher: SyncActionsDispatcher, AsyncActionsDispatc
 
             let finalHandler: (Act.ParamType, _ completion:  @escaping (Act.ReturnType) -> Void) -> Void = { _, completion in handler(completion)
             }
-            handlers[Act.actionID] = finalHandler
+            add(handler: finalHandler, for: Act.actionID)
     }
 
     public func dispatch<Act: AsyncAction>(action: Act, completion: @escaping (Act.ReturnType) -> Void) {

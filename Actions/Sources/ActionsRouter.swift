@@ -22,6 +22,10 @@ final class ActionsRouter {
         dispatchers.add(dispatcher)
     }
 
+    func contains(actionID: String) -> Bool {
+        return dispatchers.allObjects.flatMap { $0.actions }.contains(actionID)
+    }
+
     func send<Act: Action>(action: Act) -> Act.ReturnType {
         // think about fatal error ? should it be silent maybe ? or maybe we should throw exception instead ?
         guard let handler = dispatchers.allObjects.first(where: { $0.actions.contains(type(of: action).actionID) }) else {
