@@ -63,7 +63,7 @@ Someone can notice that concept is similar to well known *Events*. What is a dif
 
 ## Coordinator implementation with Actions
 
-The idea for *Actions* framework was born due to a need to implement "clean" coordinators in iOS applications. Usually coordinators are implemented as class or struct with various methods that can be used to change "application state". The questions appear quickly. How should we pass coordinator to controllers ? Should we use dependecy injection, should we use prepareForSegue or maybe should we make coordinator as singleton or global variable in the app? What's more, if you want to split your project to smaller functional modules you need to create more coordinators backed by protocols describing their public interfaces - what of course works but ... brings additional questions :) Is it possible to distinguish internal methods (for module) from public ones ? 
+The idea for *Actions* framework came with a need to implement "clean" coordinators in iOS applications. Usually coordinators are implemented as class or struct with various methods that can be used to change "application state". The questions appear quickly. How should we pass coordinator to controllers ? Should we use dependecy injection, should we use prepareForSegue or maybe should we make coordinator as singleton or global variable in the app? What's more, if you want to split your project to smaller functional modules you need to create more coordinators backed by protocols describing their public interfaces - what of course works but ... brings additional questions :) Is it possible to distinguish internal methods (for module) from public ones ? 
 
 ... Of course there is a lot of place for discussion but ...
 
