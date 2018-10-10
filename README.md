@@ -73,18 +73,22 @@ Very simple (and naive) coordinator may look like this:
 
 ```swift
 struct MyWireframe {
+
     private let navigationController: UINavigationController
     private let dispatcher = ActionsDispatcher()
+    
     init(with navigationController: UINavigationController) {
         self.navigationController = navigationController
     
         dispatcher.register(action: ShowHomeScreen.self) { [unowned self] in self.showHome() }
         dispatcher.register(action: ShowProfileScreen.self) { [unowned self] in self.showProfile(with: $0) }
     }
+    
     private func showHome() {
         let homeController = HomeViewController() 
         navigationController.setViewControllers(homeController, animated: true)
     }
+    
     private func showProfile(with id: Int) {
         let detailsController = DetailsViewController(with: id)
         navigationController.pushViewController(detailsController, animated: true)
