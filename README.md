@@ -3,8 +3,8 @@
 *Action* represent something that has to be done. It may be whatever you need like *ShowHomeScreenAction*, *FetchUserDataAction* etc. Each action may take parameters and may return values. 
 
 We have two kind of actions:
-* synchronous ations (```Actions```)   
-* asynchronous actions (```AsyncActions```). 
+* synchronous ations (```Action```)   
+* asynchronous actions (```AsyncAction```). 
 
 The most basic action with no parameters and no return value will look like:
 ```swift
