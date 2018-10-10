@@ -86,7 +86,7 @@ struct MyWireframe {
     
     private func showHome() {
         let homeController = HomeViewController() 
-        navigationController.setViewControllers(homeController, animated: true)
+        navigationController.setViewControllers([homeController], animated: true)
     }
     
     private func showProfile(with id: Int) {
