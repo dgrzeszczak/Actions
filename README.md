@@ -72,7 +72,7 @@ All above can be solved by *Actions*. You can declare public and internal Action
 Very simple (and naive) coordinator may look like this:
 
 ```swift
-struct MyWireframe {
+struct MyCoordinator {
 
     private let navigationController: UINavigationController
     private let dispatcher = ActionsDispatcher()
@@ -103,7 +103,7 @@ private var coordinators: [Any]?
 
 Keep all references there:
 ```swift
-coordinators = [MyWireframe(with: navigation), MyWireframe2(with: navigation)]
+coordinators = [MyCoordinator(with: navigation), MyCoordinator2(with: navigation)]
 ```
 
 and .... "anywhere" in your code you can show home screen just by calling:
