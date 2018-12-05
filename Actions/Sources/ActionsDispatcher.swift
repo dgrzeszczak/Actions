@@ -66,4 +66,14 @@ public final class ActionsDispatcher: SyncActionsDispatcher, AsyncActionsDispatc
 
         handler(action.param, completion)
     }
+
+    // registration actions handlers
+    public func register<Handler: AsyncActionHandler>(handler: Handler) {
+        register(action: Handler.Act.self, handler: handler.handle)
+    }
+
+    public func register<Handler: ActionHandler>(handler: Handler) {
+        register(action: Handler.Act.self, handler: handler.handle)
+    }
+
 }
