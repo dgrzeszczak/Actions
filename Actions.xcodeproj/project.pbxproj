@@ -16,6 +16,7 @@
 		08491B5720AFF6A3008D93AA /* ActionsRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 08491B5620AFF6A3008D93AA /* ActionsRouter.swift */; };
 		08491B5820AFF6A3008D93AA /* ActionsRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 08491B5620AFF6A3008D93AA /* ActionsRouter.swift */; };
 		08491B5920AFF7FE008D93AA /* Actions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 08491B4D20AFF544008D93AA /* Actions.swift */; };
+		370D5EC821B81FD500A2F6F3 /* ActionsHandlers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 370D5EC721B81FD500A2F6F3 /* ActionsHandlers.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -38,6 +39,7 @@
 		08491B4D20AFF544008D93AA /* Actions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Actions.swift; sourceTree = "<group>"; };
 		08491B5320AFF680008D93AA /* ActionsDispatcher.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActionsDispatcher.swift; sourceTree = "<group>"; };
 		08491B5620AFF6A3008D93AA /* ActionsRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActionsRouter.swift; sourceTree = "<group>"; };
+		370D5EC721B81FD500A2F6F3 /* ActionsHandlers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActionsHandlers.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -100,6 +102,7 @@
 			isa = PBXGroup;
 			children = (
 				08491B4D20AFF544008D93AA /* Actions.swift */,
+				370D5EC721B81FD500A2F6F3 /* ActionsHandlers.swift */,
 				08491B5320AFF680008D93AA /* ActionsDispatcher.swift */,
 				08491B5620AFF6A3008D93AA /* ActionsRouter.swift */,
 			);
@@ -216,6 +219,7 @@
 			files = (
 				08491B5720AFF6A3008D93AA /* ActionsRouter.swift in Sources */,
 				08491B4E20AFF544008D93AA /* Actions.swift in Sources */,
+				370D5EC821B81FD500A2F6F3 /* ActionsHandlers.swift in Sources */,
 				08491B5420AFF680008D93AA /* ActionsDispatcher.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
