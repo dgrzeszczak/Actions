@@ -10,7 +10,7 @@ public protocol ActionHandler {
 
     associatedtype Act: Action
 
-    func handle(param: Act.ParamType) -> Act.ReturnType
+    func handle(action: Act) -> Act.ReturnType
 
 }
 
@@ -18,7 +18,7 @@ public protocol AsyncActionHandler {
 
     associatedtype Act: AsyncAction
 
-    func handle(param: Act.ParamType, completion: @escaping (Act.ReturnType) -> Void)
+    func handle(action: Act, completion: @escaping (Act.ReturnType) -> Void)
 
 }
 
