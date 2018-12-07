@@ -10,9 +10,6 @@ public protocol Action: GenericAction { }
 public protocol AsyncAction: GenericAction { }
 
 public protocol GenericAction {
-    associatedtype ParamType = Void
-    var param: ParamType { get }
-
     associatedtype ReturnType = Void
 }
 
@@ -20,10 +17,6 @@ extension GenericAction {
     static var actionID: String {
         return String(reflecting: self)
     }
-}
-
-extension GenericAction where ParamType == Void {
-    public var param: Void { return }
 }
 
 extension Action {

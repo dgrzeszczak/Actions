@@ -34,37 +34,31 @@ public final class ActionsDispatcher: SyncActionsDispatcher, AsyncActionsDispatc
         handlers[actionID] = handler
     }
 
-    public func register<Act: Action>(action: Act.Type, handler: @escaping (Act.ParamType) -> Act.ReturnType) {
+    public func register<Act: Action>(action: Act.Type, handler: @escaping (Act) -> Act.ReturnType) {
         add(handler: handler, for: Act.actionID)
     }
 
     public func dispatch<Act: Action>(action: Act) -> Act.ReturnType {
-        guard let handler = handlers[type(of: action).actionID] as? ((Act.ParamType) -> Act.ReturnType) else {
+        guard let handler = handlers[type(of: action).actionID] as? ((Act) -> Act.ReturnType) else {
             fatalError("Unsuported action")
         }
 
-        return handler(action.param)
-    }
-
-    public func register<Act: AsyncAction>(action: Act.Type, handler: @escaping (Act.ParamType, _ completion: @escaping (Act.ReturnType) -> Void) -> Void) {
-        add(handler: handler, for: Act.actionID)
+        return handler(action)
     }
 
     public func register<Act: AsyncAction>(action: Act.Type,
-                                           handler: @escaping (_ completion: @escaping (Act.ReturnType) -> Void) -> Void)
-        where Act.ParamType == Void {
-
-            let finalHandler: (Act.ParamType, _ completion:  @escaping (Act.ReturnType) -> Void) -> Void = { _, completion in handler(completion)
-            }
-            add(handler: finalHandler, for: Act.actionID)
+                                           handler: @escaping (Act, _ completion: @escaping (Act.ReturnType) -> Void) -> Void) {
+        add(handler: handler, for: Act.actionID)
     }
 
     public func dispatch<Act: AsyncAction>(action: Act, completion: @escaping (Act.ReturnType) -> Void) {
-        guard let handler = handlers[type(of: action).actionID] as? ((Act.ParamType, _ completion: @escaping (Act.ReturnType) -> Void) -> Void) else {
-            fatalError("Unsuported action")
+        guard let handler = handlers[type(of: action).actionID]
+            as? ((Act, _ completion: @escaping (Act.ReturnType) -> Void) -> Void) else {
+
+                fatalError("Unsuported action")
         }
 
-        handler(action.param, completion)
+        handler(action, completion)
     }
 
     // registration actions handlers
