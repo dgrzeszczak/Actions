@@ -8,6 +8,28 @@
 
 import Foundation
 
+public protocol Routable {
+    static var isRegistered: Bool { get }
+}
+
+public extension Routable where Self: GenericAction {
+    static var isRegistered: Bool {
+        return ActionsRouter.instance.contains(actionID: actionID)
+    }
+}
+
+extension Routable where Self: Action {
+    public func send() -> ReturnType {
+        return ActionsRouter.instance.send(action: self)
+    }
+}
+
+extension Routable where Self: AsyncAction {
+    public func async(completion: @escaping (ReturnType) -> Void) {
+        ActionsRouter.instance.async(action: self, completion: completion)
+    }
+}
+
 final class ActionsRouter {
 
     static let instance = ActionsRouter()

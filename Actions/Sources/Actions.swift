@@ -18,15 +18,3 @@ extension GenericAction {
         return String(reflecting: self)
     }
 }
-
-extension Action {
-    public func send() -> ReturnType {
-        return ActionsRouter.instance.send(action: self)
-    }
-}
-
-extension AsyncAction {
-    public func async(completion: @escaping (ReturnType) -> Void) {
-        ActionsRouter.instance.async(action: self, completion: completion)
-    }
-}
