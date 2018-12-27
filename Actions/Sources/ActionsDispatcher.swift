@@ -27,15 +27,16 @@ public final class ActionsDispatcher: SyncActionsDispatcher, AsyncActionsDispatc
         ActionsRouter.instance.add(dispatcher: self)
     }
 
-    private func add(handler: Any, for actionID: String) {
-        if routingEnabled && ActionsRouter.instance.contains(actionID: actionID) {
+    private func add<Action: GenericAction>(handler: Any, for action: Action.Type) {
+        let actionID = action.actionID
+        if routingEnabled && action is Routable.Type && ActionsRouter.instance.contains(actionID: actionID) {
             fatalError("Doubled action: \(actionID). The same Action cannot be handled by two different handlers.")
         }
         handlers[actionID] = handler
     }
 
     public func register<Act: Action>(action: Act.Type, handler: @escaping (Act) -> Act.ReturnType) {
-        add(handler: handler, for: Act.actionID)
+        add(handler: handler, for:  action)
     }
 
     public func dispatch<Act: Action>(action: Act) -> Act.ReturnType {
@@ -48,7 +49,7 @@ public final class ActionsDispatcher: SyncActionsDispatcher, AsyncActionsDispatc
 
     public func register<Act: AsyncAction>(action: Act.Type,
                                            handler: @escaping (Act, _ completion: @escaping (Act.ReturnType) -> Void) -> Void) {
-        add(handler: handler, for: Act.actionID)
+        add(handler: handler, for: action)
     }
 
     public func dispatch<Act: AsyncAction>(action: Act, completion: @escaping (Act.ReturnType) -> Void) {
@@ -70,4 +71,11 @@ public final class ActionsDispatcher: SyncActionsDispatcher, AsyncActionsDispatc
         register(action: Handler.Act.self, handler: handler.handle)
     }
 
+    public func supports<Action: GenericAction>(action: Action.Type) -> Bool {
+        return actions.contains(action.actionID)
+    }
+
+    public func supports<Action: GenericAction>(action: Action) -> Bool {
+        return supports(action: Action.self)
+    }
 }
