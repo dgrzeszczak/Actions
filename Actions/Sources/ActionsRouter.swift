@@ -19,6 +19,12 @@ public extension Routable where Self: GenericAction {
 }
 
 extension Routable where Self: Action {
+    public func send() {
+        return ActionsRouter.instance.send(action: self)
+    }
+}
+
+extension Routable where Self: SyncAction {
     public func send() -> ReturnType {
         return ActionsRouter.instance.send(action: self)
     }
@@ -48,20 +54,22 @@ final class ActionsRouter {
         return dispatchers.allObjects.flatMap { $0.actions }.contains(actionID)
     }
 
-    func send<Act: Action>(action: Act) -> Act.ReturnType {
-        // think about fatal error ? should it be silent maybe ? or maybe we should throw exception instead ?
-        guard let handler = dispatchers.allObjects.first(where: { $0.actions.contains(type(of: action).actionID) }) else {
+    private func dispatcher(for action: GenericAction) -> ActionsDispatcher {
+        guard let dispatcher = dispatchers.allObjects.first(where: { $0.actions.contains(type(of: action).actionID) }) else {
             fatalError("There is no handler registered for \(type(of: action).actionID)")
         }
+        return dispatcher
+    }
 
-        return handler.dispatch(action: action)
+    func send(action: Action) {
+        return dispatcher(for: action).dispatch(action: action)
+    }
+
+    func send<Act: SyncAction>(action: Act) -> Act.ReturnType {
+        return dispatcher(for: action).dispatch(action: action)
     }
 
     func async<Act: AsyncAction>(action: Act, completion: @escaping (Act.ReturnType) -> Void) {
-        guard let handler = dispatchers.allObjects.first(where: { $0.actions.contains(type(of: action).actionID) }) else {
-            fatalError("There is no handler registered for \(type(of: action).actionID)")
-        }
-
-        handler.dispatch(action: action, completion: completion)
+        dispatcher(for: action).dispatch(action: action, completion: completion)
     }
 }

@@ -10,6 +10,14 @@ public protocol ActionHandler {
 
     associatedtype Act: Action
 
+    func handle(action: Act)
+
+}
+
+public protocol SyncActionHandler {
+
+    associatedtype Act: SyncAction
+
     func handle(action: Act) -> Act.ReturnType
 
 }
@@ -21,4 +29,3 @@ public protocol AsyncActionHandler {
     func handle(action: Act, completion: @escaping (Act.ReturnType) -> Void)
 
 }
-

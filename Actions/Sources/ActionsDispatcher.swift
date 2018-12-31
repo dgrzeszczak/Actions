@@ -6,15 +6,20 @@
 //  Copyright © 2018 Dariusz Grzeszczak. All rights reserved.
 //
 
-public protocol SyncActionsDispatcher {
-    func dispatch<Act: Action>(action: Act) -> Act.ReturnType
+public protocol ActionDispatcher {
+    func dispatch(action: Action)
 }
 
-public protocol AsyncActionsDispatcher {
+public protocol SyncActionDispatcher {
+    func dispatch<Act: SyncAction>(action: Act) -> Act.ReturnType
+}
+
+public protocol AsyncActionDispatcher {
     func dispatch<Act: AsyncAction>(action: Act, completion: @escaping (Act.ReturnType) -> Void)
 }
 
-public final class ActionsDispatcher: SyncActionsDispatcher, AsyncActionsDispatcher {
+public final class ActionsDispatcher: ActionDispatcher, SyncActionDispatcher, AsyncActionDispatcher {
+
     private var handlers: [String: Any] =  [:]
     var actions: [String] {
         return handlers.map { $0.key }
@@ -27,7 +32,7 @@ public final class ActionsDispatcher: SyncActionsDispatcher, AsyncActionsDispatc
         ActionsRouter.instance.add(dispatcher: self)
     }
 
-    private func add<Action: GenericAction>(handler: Any, for action: Action.Type) {
+    private func add(handler: Any, for action: GenericAction.Type) {
         let actionID = action.actionID
         if routingEnabled && action is Routable.Type && ActionsRouter.instance.contains(actionID: actionID) {
             fatalError("Doubled action: \(actionID). The same Action cannot be handled by two different handlers.")
@@ -35,11 +40,26 @@ public final class ActionsDispatcher: SyncActionsDispatcher, AsyncActionsDispatc
         handlers[actionID] = handler
     }
 
-    public func register<Act: Action>(action: Act.Type, handler: @escaping (Act) -> Act.ReturnType) {
+    public func register<Act: Action>(action: Act.Type, handler: @escaping (Act) -> Void) {
+        let han: (Action) -> Void = { action in
+            handler(action as! Act)
+        }
+        add(handler: han, for:  action)
+    }
+
+    public func dispatch(action: Action) {
+        guard let handler = handlers[type(of: action).actionID] as? ((Action) -> Void) else {
+            fatalError("Unsuported action")
+        }
+
+        return handler(action)
+    }
+
+    public func register<Act: SyncAction>(action: Act.Type, handler: @escaping (Act) -> Act.ReturnType) {
         add(handler: handler, for:  action)
     }
 
-    public func dispatch<Act: Action>(action: Act) -> Act.ReturnType {
+    public func dispatch<Act: SyncAction>(action: Act) -> Act.ReturnType {
         guard let handler = handlers[type(of: action).actionID] as? ((Act) -> Act.ReturnType) else {
             fatalError("Unsuported action")
         }
@@ -62,20 +82,24 @@ public final class ActionsDispatcher: SyncActionsDispatcher, AsyncActionsDispatc
         handler(action, completion)
     }
 
-    // registration actions handlers
-    public func register<Handler: AsyncActionHandler>(handler: Handler) {
-        register(action: Handler.Act.self, handler: handler.handle)
-    }
-
-    public func register<Handler: ActionHandler>(handler: Handler) {
-        register(action: Handler.Act.self, handler: handler.handle)
-    }
-
     public func supports<Action: GenericAction>(action: Action.Type) -> Bool {
         return actions.contains(action.actionID)
     }
 
     public func supports<Action: GenericAction>(action: Action) -> Bool {
         return supports(action: Action.self)
+    }
+
+    // registration actions handlers
+    public func register<Handler: ActionHandler>(handler: Handler) {
+        register(action: Handler.Act.self, handler: handler.handle)
+    }
+
+    public func register<Handler: AsyncActionHandler>(handler: Handler) {
+        register(action: Handler.Act.self, handler: handler.handle)
+    }
+
+    public func register<Handler: SyncActionHandler>(handler: Handler) {
+        register(action: Handler.Act.self, handler: handler.handle)
     }
 }

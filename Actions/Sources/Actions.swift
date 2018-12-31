@@ -7,11 +7,14 @@
 //
 
 public protocol Action: GenericAction { }
-public protocol AsyncAction: GenericAction { }
-
-public protocol GenericAction {
+public protocol SyncAction: GenericAction {
+    associatedtype ReturnType
+}
+public protocol AsyncAction: GenericAction {
     associatedtype ReturnType = Void
 }
+
+public protocol GenericAction { }
 
 extension GenericAction {
     static var actionID: String {
