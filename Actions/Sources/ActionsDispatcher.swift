@@ -82,12 +82,12 @@ public final class ActionsDispatcher: ActionDispatcher, SyncActionDispatcher, As
         handler(action, completion)
     }
 
-    public func supports<Action: GenericAction>(action: Action.Type) -> Bool {
+    public func supports(action: GenericAction.Type) -> Bool {
         return actions.contains(action.actionID)
     }
 
-    public func supports<Action: GenericAction>(action: Action) -> Bool {
-        return supports(action: Action.self)
+    public func supports(action: GenericAction) -> Bool {
+        return supports(action: type(of: action))
     }
 
     // registration actions handlers
